@@ -12,8 +12,7 @@ tokenized_data = hf_datasets(
 )
 
 model_name = "gpt2"
-model = GPT2LMHeadModel.from_pretrained(model_name, attn_implementation="flash_attention_2")
-model = torch.compile(model)
+model = GPT2LMHeadModel.from_pretrained(model_name)
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 tokenizer.pad_token = tokenizer.eos_token
@@ -23,16 +22,16 @@ training_args = TrainingArguments(
     num_train_epochs=3,
     per_device_train_batch_size=192,
     per_device_eval_batch_size=192,
+    eval_strategy="epoch",
+    save_strategy="epoch",
     warmup_steps=500,
     weight_decay=0.01,
-    evaluation_strategy="steps",
-    eval_steps=500,
-    save_steps=500,
     load_best_model_at_end=True,
     logging_dir="./logs",
     logging_steps=50,
     bf16=True,
     report_to="none"
+    remove_unused_columns=False,
 )
 
 data_collator = DataCollatorForLanguageModeling(
