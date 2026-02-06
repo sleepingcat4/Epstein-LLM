@@ -33,7 +33,7 @@ training_args = TrainingArguments(
     logging_dir="./logs",
     logging_steps=50,
     bf16=True,
-    report_to="none"
+    report_to="none",
     remove_unused_columns=False,
 )
 
@@ -65,4 +65,5 @@ with open("./Epstein-LLM/eval_results.json", "w") as f:
 
 model.save_pretrained("./Epstein-LLM")
 tokenizer.save_pretrained("./Epstein-LLM")
+
 
