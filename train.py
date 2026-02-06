@@ -4,6 +4,9 @@ import json
 from transformers import GPT2LMHeadModel, AutoTokenizer
 from transformers import TrainingArguments, Trainer, DataCollatorForLanguageModeling
 from preprocess import hf_datasets
+import os
+
+os.makedirs("Epstein-LLM", exist_ok=True)
 
 tokenized_data = hf_datasets(
     "sleeping-ai/Epstein-Emails",
@@ -57,8 +60,9 @@ results_to_save = {
     "eval_loss": results["eval_loss"],
     "perplexity": perplexity
 }
-with open("./fine_tuned_gpt2/eval_results.json", "w") as f:
+with open("./Epstein-LLM/eval_results.json", "w") as f:
     json.dump(results_to_save, f, indent=4)
 
-model.save_pretrained("./fine_tuned_gpt2")
-tokenizer.save_pretrained("./fine_tuned_gpt2")
+model.save_pretrained("./Epstein-LLM")
+tokenizer.save_pretrained("./Epstein-LLM")
+
